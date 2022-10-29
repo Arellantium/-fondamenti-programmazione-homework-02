@@ -91,7 +91,10 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
     moment_sum = 0
     previous_one = 0
     partial_result = []
-    for idx, x in enumerate(weigths):
+    idx = 0
+    while idx < len(weigths):
+        x = weigths[idx]
+
         if previous_one == 0 or x == previous_one:
             moment_sum += x
             if idx == len(weigths) - 1:
@@ -102,9 +105,36 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
             moment_sum = x
             previous_one = x
         elif x > previous_one:
-            partial_result.append(x - moment_sum)
+            sustratcion = []
+
+            while x > previous_one:
+                sustratcion.append(previous_one)
+
+                if idx >= len(weigths)-1:
+                    if x > previous_one:
+                        sustratcion.append(x)
+                        previous_one = x
+                    break
+                elif x >= weigths[idx+1]:
+                    sustratcion.append(x)
+                    previous_one = x
+                    break
+
+                previous_one = x
+                idx += 1
+                x = weigths[idx]
+
+            for idx_sustraction, c in enumerate(sustratcion[::-1]):
+                if idx_sustraction == 0:
+                    moment_sum = sustratcion[-1]
+                else:
+                    moment_sum -= c
+
+            partial_result.append(moment_sum)
             moment_sum = 0
             previous_one = 0
+
+        idx += 1
 
     return sum(partial_result)
 
@@ -114,5 +144,5 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
 if __name__ == '__main__':
     # inserisci qui i tuoi test
 
-    print(list_of_weights_to_number([500, 100, 100, 50, 10, 10, 1, 5]))
+    print(list_of_weights_to_number([1000, 100, 1000, 10, 100, 1, 10]))
     print('10010010010100511', decode_value('10010010010100511'), '(397?)')
