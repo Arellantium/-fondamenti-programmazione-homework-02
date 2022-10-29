@@ -41,7 +41,28 @@ def decode_XKCD_tuple(xkcd_values : tuple[str, ...], k : int) -> list[int]:
     list[int]                   i k massimi valori ottenuti in ordine decrescente
     '''
     # INSERISCI QUI IL TUO CODICE
-    pass
+    # "1000100100010100110"
+    result = []
+    for value in xkcd_values:
+        value_list = []
+        num = ''
+        for idx, x in enumerate(value):
+            if idx != 0:
+                if x != '0':
+                    value_list.append(int(num))
+                    num = ''
+
+            num += x
+
+            if idx >= len(value)-1:
+                value_list.append(int(num))
+
+        result.append(list_of_weights_to_number(value_list))
+
+    result = sorted(result, reverse=True)
+
+    return tuple(result[:k])
+
 
 
 def decode_value(xkcd : str ) -> int:
@@ -144,5 +165,8 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
 if __name__ == '__main__':
     # inserisci qui i tuoi test
 
-    print(list_of_weights_to_number([1000, 100, 1000, 10, 100, 1, 10]))
+    #print(list_of_weights_to_number([1000, 100, 1000, 10, 100, 1, 10]))
+
+    print(decode_XKCD_tuple(('1000100100010100110', '100010001050015', '50010010050101015'), 2))
+
     print('10010010010100511', decode_value('10010010010100511'), '(397?)')
