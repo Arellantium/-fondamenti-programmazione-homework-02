@@ -44,24 +44,12 @@ def decode_XKCD_tuple(xkcd_values : tuple[str, ...], k : int) -> list[int]:
     # "1000100100010100110"
     result = []
     for value in xkcd_values:
-        value_list = []
-        num = ''
-        for idx, x in enumerate(value):
-            if idx != 0:
-                if x != '0':
-                    value_list.append(int(num))
-                    num = ''
-
-            num += x
-
-            if idx >= len(value)-1:
-                value_list.append(int(num))
-
-        result.append(list_of_weights_to_number(value_list))
+        decode = decode_value(value)
+        result.append(decode)
 
     result = sorted(result, reverse=True)
 
-    return tuple(result[:k])
+    return result[:k]
 
 
 
@@ -77,8 +65,9 @@ def decode_value(xkcd : str ) -> int:
     Esempio: '10010010010100511' -> 397
     '''
     # INSERISCI QUI IL TUO CODICE
-    pass
+    value_list = xkcd_to_list_of_weights(xkcd)
 
+    return (list_of_weights_to_number(value_list))
 
 def xkcd_to_list_of_weights(xkcd : str) -> list[int]:
     '''
@@ -93,7 +82,20 @@ def xkcd_to_list_of_weights(xkcd : str) -> list[int]:
     Esempio: '10010010010100511' -> [100, 100, 100, 10, 100, 5, 1, 1,]
     '''
     # INSERISCI QUI IL TUO CODICE
-    pass
+    value_list = []
+    num = ''
+    for idx, x in enumerate(xkcd):
+        if idx != 0:
+            if x != '0':
+                value_list.append(int(num))
+                num = ''
+
+        num += x
+
+        if idx >= len(xkcd) - 1:
+            value_list.append(int(num))
+
+    return value_list
 
 
 def list_of_weights_to_number(weigths : list[int] ) -> int:
@@ -167,6 +169,9 @@ if __name__ == '__main__':
 
     #print(list_of_weights_to_number([1000, 100, 1000, 10, 100, 1, 10]))
 
-    print(decode_XKCD_tuple(('1000100100010100110', '100010001050015', '50010010050101015'), 2))
+    #print(decode_XKCD_tuple(('1000100100010100110', '100010001050015', '50010010050101015'), 2))
 
-    print('10010010010100511', decode_value('10010010010100511'), '(397?)')
+    #print(decode_value('10010010010100511'))
+
+    print(xkcd_to_list_of_weights('10010010010100511'))
+#print('10010010010100511', decode_value('10010010010100511'), '(397?)')
