@@ -67,7 +67,7 @@ def decode_value(xkcd : str ) -> int:
     # INSERISCI QUI IL TUO CODICE
     value_list = xkcd_to_list_of_weights(xkcd)
 
-    return (list_of_weights_to_number(value_list))
+    return list_of_weights_to_number(value_list)
 
 def xkcd_to_list_of_weights(xkcd : str) -> list[int]:
     '''
@@ -111,67 +111,30 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
     Esempio: [100, 100, 100, 10, 100, 5, 1, 1,] -> 397
     '''
     # INSERISCI QUI IL TUO CODICE
-    moment_sum = 0
+    weight_result = 0
     previous_one = 0
-    partial_result = []
-    idx = 0
-    while idx < len(weigths):
-        x = weigths[idx]
 
-        if previous_one == 0 or x == previous_one:
-            moment_sum += x
-            if idx == len(weigths) - 1:
-                partial_result.append(moment_sum)
-            previous_one = x
-        elif x < previous_one:
-            partial_result.append(moment_sum)
-            moment_sum = x
-            previous_one = x
-        elif x > previous_one:
-            sustratcion = []
+    for idx_weight, element in enumerate(weigths):
 
-            while x > previous_one:
-                sustratcion.append(previous_one)
+        if element > previous_one:
+            weight_result -= previous_one
+            weight_result += element - previous_one
 
-                if idx >= len(weigths)-1:
-                    if x > previous_one:
-                        sustratcion.append(x)
-                        previous_one = x
-                    break
-                elif x >= weigths[idx+1]:
-                    sustratcion.append(x)
-                    previous_one = x
-                    break
+        else:
+            weight_result += element
 
-                previous_one = x
-                idx += 1
-                x = weigths[idx]
+        previous_one = element
 
-            for idx_sustraction, c in enumerate(sustratcion[::-1]):
-                if idx_sustraction == 0:
-                    moment_sum = sustratcion[-1]
-                else:
-                    moment_sum -= c
-
-            partial_result.append(moment_sum)
-            moment_sum = 0
-            previous_one = 0
-
-        idx += 1
-
-    return sum(partial_result)
-
+    return weight_result
 
 
 ###################################################################################
 if __name__ == '__main__':
+    pass
     # inserisci qui i tuoi test
 
     #print(list_of_weights_to_number([1000, 100, 1000, 10, 100, 1, 10]))
-
     #print(decode_XKCD_tuple(('1000100100010100110', '100010001050015', '50010010050101015'), 2))
-
     #print(decode_value('10010010010100511'))
-
-    print(xkcd_to_list_of_weights('10010010010100511'))
-#print('10010010010100511', decode_value('10010010010100511'), '(397?)')
+    #print(xkcd_to_list_of_weights('10010010010100511'))
+    #print('10010010010100511', decode_value('10010010010100511'), '(397?)')
