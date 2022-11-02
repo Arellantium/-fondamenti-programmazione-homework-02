@@ -83,15 +83,14 @@ def xkcd_to_list_of_weights(xkcd : str) -> list[int]:
 
     # INSERISCI QUI IL TUO CODICE
 
-    xkcd = xkcd if xkcd[0] != '0' else xkcd[1:]
-
+    xkcd = str(int(xkcd))
     value_list = []
-    num = ''
+    num = xkcd[0]
+    xkcd = xkcd[1:]
     for idx, x in enumerate(xkcd):
-        if idx != 0:
-            if x != '0':
-                value_list.append(int(num))
-                num = ''
+        if x != '0':
+            value_list.append(int(num))
+            num = ''
 
         num += x
 
@@ -133,7 +132,7 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
 
 ###################################################################################
 if __name__ == '__main__':
-    print(xkcd_to_list_of_weights('0101011'))
+    print(xkcd_to_list_of_weights('00000000000000000000000000000000000000000000000000000000000000000000000000000000101011'))
     # inserisci qui i tuoi test
 
     #print(list_of_weights_to_number([1000, 100, 1000, 10, 100, 1, 10]))
