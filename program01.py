@@ -43,15 +43,13 @@ def decode_XKCD_tuple(xkcd_values : tuple[str, ...], k : int) -> list[int]:
     # INSERISCI QUI IL TUO CODICE
     # "1000100100010100110"
     result = []
-    for value in xkcd_values:
-        decode = decode_value(value)
-        result.append(decode)
+    #for value in xkcd_values:
+        #result.append(decode_value(value))
+    result = list(map(decode_value, xkcd_values))
 
-    result = sorted(result, reverse=True)
-
+    #return result[:k].sort(reverse=True)
+    result.sort(reverse=True)
     return result[:k]
-
-
 
 def decode_value(xkcd : str ) -> int:
     '''
@@ -65,9 +63,8 @@ def decode_value(xkcd : str ) -> int:
     Esempio: '10010010010100511' -> 397
     '''
     # INSERISCI QUI IL TUO CODICE
-    value_list = xkcd_to_list_of_weights(xkcd)
 
-    return list_of_weights_to_number(value_list)
+    return list_of_weights_to_number(xkcd_to_list_of_weights(xkcd))
 
 def xkcd_to_list_of_weights(xkcd : str) -> list[int]:
     '''
@@ -81,7 +78,13 @@ def xkcd_to_list_of_weights(xkcd : str) -> list[int]:
 
     Esempio: '10010010010100511' -> [100, 100, 100, 10, 100, 5, 1, 1,]
     '''
+
+
+
     # INSERISCI QUI IL TUO CODICE
+
+    xkcd = xkcd if xkcd[0] != '0' else xkcd[1:]
+
     value_list = []
     num = ''
     for idx, x in enumerate(xkcd):
@@ -114,7 +117,7 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
     weight_result = 0
     previous_one = 0
 
-    for idx_weight, element in enumerate(weigths):
+    for element in weigths:
 
         if element > previous_one:
             weight_result -= previous_one
@@ -130,7 +133,7 @@ def list_of_weights_to_number(weigths : list[int] ) -> int:
 
 ###################################################################################
 if __name__ == '__main__':
-    pass
+    print(xkcd_to_list_of_weights('0101011'))
     # inserisci qui i tuoi test
 
     #print(list_of_weights_to_number([1000, 100, 1000, 10, 100, 1, 10]))
